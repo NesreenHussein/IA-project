@@ -1,11 +1,12 @@
 const conn = require("../db/dbConnection");
 const util = require("util"); // helper
 
-const admin = async (req, res, next) => {
+const authorized = async (req, res, next) => {
   const query = util.promisify(conn.query).bind(conn);
   const { token } = req.headers;
-  const admin = await query("select * from users where token = ?", [token]);
-  if (admin[0] && admin[0].role == "1") {
+  const user = await query("select * from users where token = ?", [token]);
+  if (user[0]) {
+    res.locals.user = user[0];
     next();
   } else {
     res.status(403).json({
@@ -14,4 +15,4 @@ const admin = async (req, res, next) => {
   }
 };
 
-module.exports = admin;
+module.exports = authorized;

@@ -37,7 +37,7 @@ router.post(
         });
       }
 
-      //   res.json("hi from login");
+      //3- compare password
 
       const checkPassword = await bcrypt.compare(
         req.body.password,
@@ -58,7 +58,7 @@ router.post(
     } catch (error) {
       console.log("ERROR!!!!!!!!!");
       console.log(error);
-      res.status(500).json({ error: error });
+      res.status(500).json({ error: error + "error" });
     }
   }
 );
@@ -72,6 +72,8 @@ router.post(
   body("password")
     .isLength({ min: 8, max: 16 })
     .withMessage("please enter a valid password between 8 and 16 characters"),
+  body("phone"),
+
   async (req, res) => {
     try {
       //1- validation req
@@ -100,6 +102,7 @@ router.post(
       const userData = {
         name: req.body.name,
         email: req.body.email,
+        phone: req.body.phone,
         password: await bcrypt.hash(req.body.password, 10),
         token: crypto.randomBytes(16).toString("hex"),
       };

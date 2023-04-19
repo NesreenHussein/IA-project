@@ -7,7 +7,8 @@ const cors = require("cors");
 app.use(cors()); //to communicate with frontend on local host
 
 const auth = require("./routes/auth");
-const movies = require("./routes/movies");
+const Admin = require("./routes/admin");
+const admin = require("./middleware/admin");
 
 app.listen(4000, "localhost", () => {
   console.log("server is running");
@@ -15,4 +16,4 @@ app.listen(4000, "localhost", () => {
 
 //APIs routs [end points]
 app.use("/auth", auth);
-app.use("/movies", movies);
+app.use("/admin", Admin);
